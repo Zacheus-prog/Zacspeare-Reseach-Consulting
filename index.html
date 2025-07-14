@@ -1,0 +1,140 @@
+
+
+
+  
+  
+  Research Consultancy Web
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  
+  
+    const { useState } = React;
+
+<pre><code>// Service data with rates
+const services = [
+  { id: 1, name: &quot;Questionnaire Designing&quot;, rate: 500, description: &quot;Tailored questionnaire creation for precise research outcomes.&quot; },
+  { id: 2, name: &quot;Questionnaire Testing&quot;, rate: 300, description: &quot;Validation and testing to ensure questionnaire reliability.&quot; },
+  { id: 3, name: &quot;Data Collection&quot;, rate: 1000, description: &quot;Multi-channel data collection for robust datasets.&quot; },
+  { id: 4, name: &quot;Data Quality Control &amp; Assurance&quot;, rate: 400, description: &quot;Rigorous checks to maintain data accuracy and integrity.&quot; },
+  { id: 5, name: &quot;Data Cleaning&quot;, rate: 350, description: &quot;Data preparation for error-free analysis.&quot; },
+  { id: 6, name: &quot;Data Analysis&quot;, rate: 800, description: &quot;Advanced statistical analysis with actionable insights.&quot; },
+  { id: 7, name: &quot;Report Presentation&quot;, rate: 600, description: &quot;Professional reports with clear, visual presentations.&quot; },
+  { id: 8, name: &quot;Overall Research Consultancy&quot;, rate: 2000, description: &quot;Comprehensive research support from start to finish.&quot; },
+];
+
+// Service Card Component
+function ServiceCard({ service, addToOrder }) {
+  return (
+    &lt;div className=&quot;bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-all&quot;&gt;
+      &lt;h3 className=&quot;text-xl font-semibold text-gray-900&quot;&gt;{service.name}&lt;/h3&gt;
+      &lt;p className=&quot;text-gray-700 mt-2&quot;&gt;{service.description}&lt;/p&gt;
+      &lt;p className=&quot;text-lg font-bold text-teal-600 mt-2&quot;&gt;${service.rate}&lt;/p&gt;
+      &lt;button
+        onClick={() =&gt; addToOrder(service)}
+        className=&quot;mt-4 bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition&quot;
+      &gt;
+        Add to Order
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Order Summary Component
+function OrderSummary({ order, removeFromOrder, submitOrder }) {
+  const total = order.reduce((sum, item) =&gt; sum + item.rate, 0);
+
+  return (
+    &lt;div className=&quot;bg-gray-50 p-6 rounded-lg shadow-md&quot;&gt;
+      &lt;h2 className=&quot;text-2xl font-bold text-gray-900 mb-4&quot;&gt;Order Summary&lt;/h2&gt;
+      {order.length === 0 ? (
+        &lt;p className=&quot;text-gray-700&quot;&gt;No services selected.&lt;/p&gt;
+      ) : (
+        &lt;div&gt;
+          {order.map((item, index) =&gt; (
+            &lt;div key={index} className=&quot;flex justify-between items-center mb-2&quot;&gt;
+              &lt;span className=&quot;text-gray-800&quot;&gt;{item.name}&lt;/span&gt;
+              &lt;div className=&quot;flex items-center&quot;&gt;
+                &lt;span className=&quot;mr-4 text-teal-600&quot;&gt;${item.rate}&lt;/span&gt;
+                &lt;button
+                  onClick={() =&gt; removeFromOrder(index)}
+                  className=&quot;text-red-600 hover:text-red-800&quot;
+                &gt;
+                  Remove
+                &lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          ))}
+          &lt;div className=&quot;mt-4 border-t pt-2&quot;&gt;
+            &lt;p className=&quot;text-lg font-bold text-gray-900&quot;&gt;Total: ${total}&lt;/p&gt;
+          &lt;/div&gt;
+          &lt;button
+            onClick={submitOrder}
+            className=&quot;mt-4 bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition&quot;
+          &gt;
+            Submit Order
+          &lt;/button&gt;
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+// Main App Component
+function App() {
+  const [order, setOrder] = useState([]);
+
+  const addToOrder = (service) =&gt; {
+    setOrder([...order, service]);
+  };
+
+  const removeFromOrder = (index) =&gt; {
+    setOrder(order.filter((_, i) =&gt; i !== index));
+  };
+
+  const submitOrder = () =&gt; {
+    if (order.length === 0) {
+      alert(&quot;Please select at least one service.&quot;);
+      return;
+    }
+    alert(&quot;Order submitted successfully! Our team will contact you soon.&quot;);
+    setOrder([]);
+  };
+
+  return (
+    &lt;div className=&quot;min-h-screen bg-gray-100 p-8&quot;&gt;
+      &lt;h1 className=&quot;text-4xl font-bold text-center text-gray-900 mb-8&quot;&gt;
+        Research Consultancy Web
+      &lt;/h1&gt;
+      &lt;div className=&quot;max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6&quot;&gt;
+        &lt;div&gt;
+          &lt;h2 className=&quot;text-2xl font-bold text-gray-900 mb-4&quot;&gt;Our Services&lt;/h2&gt;
+          &lt;div className=&quot;grid grid-cols-1 gap-4&quot;&gt;
+            {services.map((service) =&gt; (
+              &lt;ServiceCard key={service.id} service={service} addToOrder={addToOrder} /&gt;
+            ))}
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;OrderSummary order={order} removeFromOrder={removeFromOrder} submitOrder={submitOrder} /&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Render the app
+ReactDOM.render(&lt;App /&gt;, document.getElementById(&#39;root&#39;));
+</code></pre>
+<p>      <br>    if ('serviceWorker' in navigator) {<br>      window.addEventListener('load', () => {<br>        navigator.serviceWorker.register('/service-worker.js')<br>          .then(reg => console.log('Service Worker registered'))<br>          .catch(err => console.log('Service Worker registration failed:', err));<br>      });<br>    }<br>  
+(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'95f182b02d4a4ecd',t:'MTc1MjUwMTI1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();
